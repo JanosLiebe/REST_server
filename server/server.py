@@ -24,7 +24,7 @@ def detail_item(name):
     status_code = 200 if successful else 404
     return json.dumps(response_msg), status_code
 
-@app.route('/items/', methods=['POST'])
+@app.route('/items/<name>', methods=['POST'])
 def add_item():
     data = json.loads(request.data)
     successful, response_msg = store.add_item(**data)
