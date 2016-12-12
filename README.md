@@ -1,3 +1,3 @@
 # REST_server
 
-Test githook!
+Only Robot testcases and corresponding Python code is implemented by me.
