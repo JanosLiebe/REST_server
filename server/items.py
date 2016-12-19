@@ -26,7 +26,10 @@ class Item(object):
 
 
 class ItemStore(object):
-    _items = []
+    # _item = [] is replaced by def __init__ to support db init @Janos
+    #_items = []
+    def __init__(self):
+        self._items = []
 
     def _exists(self, name, ret_item=False):
         for index, item in enumerate(self._items):
@@ -71,9 +74,22 @@ class ItemStore(object):
         return True, item.serialize()
 
 
-def initialize_store():
+def create_store():
     print 'Initializing...'
     store = ItemStore()
     for i in xrange(5):
         print store.add_item(name='item_{}'.format(i))
     return store
+
+# Added to support db init @Janos
+def initialize_store(store, **kwargs):
+    init = kwargs.pop('init', None)
+    if not init:
+        return False, {'init': 'error'}
+    if init == 'server':
+        store.__init__()
+        for i in xrange(5):
+            # print store.add_item(name='item_{}'.format(i))
+            store.add_item(name='item_{}'.format(i))
+        return True, {'init': 'server'}
+    return False, {'init': 'unknown request'}
